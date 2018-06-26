@@ -1,0 +1,14 @@
+= javascript_pack_tag 'application'
+
+%h1 React Calendar
+
+%h2 Appointments
+
+%h3 Make a new appointment
+
+#appointments_data{data: @appointments.to_json}
+
+= javascript_pack_tag 'Appointments'
+-# = stylesheet_pack_tag 'appointments'
+
+-# = react_component('Appointments', {appointments: @appointments, csrf_token: form_authenticity_token})
