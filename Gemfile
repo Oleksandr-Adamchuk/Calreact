@@ -36,7 +36,7 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'webpacker'
-gem 'react-rails'
+gem 'react_on_rails'
 gem 'haml', '~> 5.0', '>= 5.0.4'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
 
