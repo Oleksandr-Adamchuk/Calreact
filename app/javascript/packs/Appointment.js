@@ -3,7 +3,7 @@ import { formatDate } from './utils';
 
 const Appointment = ({appointment}) =>   {
     return(
-      <div key={appointment.id} className='appointment'>
+      <div className='appointment'>
         <h3>{appointment.title}</h3>
         <p>{formatDate(appointment.app_time)}</p>
       </div>

@@ -6,9 +6,11 @@
 
 %h3 Make a new appointment
 
-#appointments_data{data: @appointments.to_json}
+-# #appointments_data{data: @appointments.to_json}
 
-= javascript_pack_tag 'Appointments'
+-# = javascript_pack_tag 'Appointments'
 -# = stylesheet_pack_tag 'appointments'
 
--# = react_component('Appointments', {appointments: @appointments, csrf_token: form_authenticity_token})
+= react_component('Appointments', 
+                  props: {appointments: @appointments, csrf_token: form_authenticity_token}, 
+                  prerender: true)

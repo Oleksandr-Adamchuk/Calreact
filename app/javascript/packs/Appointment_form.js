@@ -45,7 +45,12 @@ class AppointmentForm extends Component {
             value={this.props.input_app_time}
             onChange={this.setAppTime}
           />
-          <input type='submit' value='Make Appointment' className='submit-button'/>
+          <input 
+            type='submit' 
+            value='Make Appointment' 
+            className='submit-button'
+            disabled={!this.props.formValid}
+          />
         </form>
       </div>
     )

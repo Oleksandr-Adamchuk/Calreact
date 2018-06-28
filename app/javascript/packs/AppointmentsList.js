@@ -3,9 +3,11 @@ import Appointment from './Appointment'
 
 class AppointmentsList extends Component {
   render(){
+    
     return(
       <div>
-        {this.props.appointments.map( appointment => {
+        { 
+          this.props.appointments.map( appointment => {
           return (
               <Appointment appointment={appointment} key={appointment.id}/>
           );

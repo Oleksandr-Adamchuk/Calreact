@@ -22,7 +22,21 @@ body {
   padding: 10px;
 }
 
+.submit-button:disabled {
+  background: #BBBBBB;
+  cursor: not-alowed;
+}
+
+
 .appointment {
   padding-top: 10px;
   border-bottom: solid 1px #ccc;
+}
+form input {
+  margin-bottom: 10px;
+}
+
+#formErrors {
+  color: red;
+  font-weight: bold;
 }
