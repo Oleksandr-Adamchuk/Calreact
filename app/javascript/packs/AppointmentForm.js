@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import Datetime from 'react-datetime'
 import Label from './Label'
+import moment from "moment"
+
 
 class AppointmentForm extends Component {
 
@@ -10,18 +12,14 @@ class AppointmentForm extends Component {
   }
 
   handleChange = (e) => {
-    const name = e.target.name;
-    const obj = {};
-    obj[name] = e.target.value;
-    this.props.onUserInput(obj);
+    const fieldName = e.target.name;
+    const fieldValue = e.target.value;
+    this.props.onUserInput(fieldName, fieldValue);
   }
   setAppTime = (e) => {
-    console.log(e);
-    const name = 'app_time';
-    const obj = {};
-    if(obj[name] = e.toDate()){
-      this.props.onUserInput(obj)
-    }
+    const fieldName = 'app_time';
+    const fieldValue = e.toDate();
+    this.props.onUserInput(fieldName, fieldValue);
   }
   render(){
     const inputProps = {
@@ -36,13 +34,13 @@ class AppointmentForm extends Component {
           <input 
             name='title' 
             placeholder='Appointment tiile' 
-            onChange={(e) => this.handleChange(e)}
-            value={this.props.input_title}
+            onChange={this.handleChange}
+            value={this.props.title.value}
           />
           <Datetime 
-            input={true} 
+            input={false} 
             inputProps={inputProps}
-            value={this.props.input_app_time}
+            value={moment(this.props.app_time.value)}
             onChange={this.setAppTime}
           />
           <input 

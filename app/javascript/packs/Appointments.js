@@ -1,30 +1,68 @@
 import React, { Component } from "react"
 import ReactDOM from 'react-dom'
 import Appointment from './Appointment'
-import AppointmentForm from './Appointment_form'
+import AppointmentForm from './AppointmentForm'
 import AppointmentsList from './AppointmentsList'
 import update from 'react-addons-update'
 import { FormErrors } from './FormErrors'
-
+import moment from 'moment'
+import PropTypes from 'prop-types'
 
 class Appointments extends Component {
+  static propTypes = {
+    appointments: PropTypes.array.isRequired
+  }
+
   constructor(props, railsContext){
     super(props);
+    console.log(props);
     this.state = {
       appointments: this.props.appointments,
-      title: 'App title',
-      app_time: 'Tomorrow ar 9pm',
+      title: {value: '', valid:false},
+      app_time: {value: '', valid:false},
       formErrors: '',
-      formValid: true
+      formValid: false
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
-  handleUserInput = (obj) => {
-    this.setState(obj, this.validateForm())
+  handleUserInput = (fieldName, fieldValue) => {
+    const newFieldState = update(this.state[fieldName], 
+                          {value: {$set: fieldValue}});
+    this.setState({[fieldName]:newFieldState}, 
+                  () => this.validateField(fieldName, fieldValue)
+    )
   }
+
+  validateField = (fieldName, fieldValue) => {
+    let fieldValid;
+    let fieldErrors;
+    switch(fieldName) {
+      case 'title':
+        fieldValid = this.state.title.value.trim().length > 2;
+        if(!fieldValid){
+          fieldErrors=' should be at least 3 characters long';
+        }
+        break;
+      case 'app_time':
+        fieldValid = moment(this.state.app_time.value).isValid() &&
+                     moment(this.state.app_time.value).isAfter();
+        if(!fieldValid) {
+          fieldErrors=' should not be in the past';
+        }
+      default:
+        break;
+    }
+    const newFieldState = update(this.state[fieldName], { valid: {$set: fieldValid} });
+    const newFormErrors = update(this.state.formErrors, {$set: fieldErrors});
+    this.setState({[fieldName]: newFieldState, 
+                  formErrors: newFormErrors},
+                  this.validateForm);
+}
+
   validateForm = () => {
-    this.setState({formValid: this.state.title.trim().length > 3})
+    this.setState({formValid: this.state.title.valid &&
+                              this.state.app_time.valid})
   }
 
   handleErrors = (response) => {
@@ -75,8 +113,8 @@ class Appointments extends Component {
       <div>
         <FormErrors formErrors={this.state.formErrors}/>
         <AppointmentForm
-          input_title={this.state.title} 
-          input_app_time={this.state.app_time}
+          title={this.state.title} 
+          app_time={this.state.app_time}
           onUserInput={this.handleUserInput}
           onFormSubmit={this.handleFormSubmit}
           formValid={this.state.formValid}
